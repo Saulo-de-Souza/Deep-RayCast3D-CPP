@@ -2,8 +2,8 @@
 .gitignore export-ignore
 .gitattributes export-ignore
 .editorconfig export-ignore
-deep_raycast_3d.gdextension export-ignore
-SConstruct.py export-ignore
+/deep_raycast_3d.gdextension export-ignore
+/SConstruct.py export-ignore
 README.md export-ignore
 LICENSE.md export-ignore
 doc_classes export-ignore
