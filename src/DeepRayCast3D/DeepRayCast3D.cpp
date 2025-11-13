@@ -27,13 +27,8 @@ DeepRayCast3D::DeepRayCast3D()
     position_offset     = Vector3();
 
     _resource_material = ResourceLoader::get_singleton()->load("res://addons/deep_raycast_3d/resources/material.tres");
-    if (_resource_material.is_null())
+    if (!_resource_material.is_null())
     {
-        UtilityFunctions::printerr("Falha ao carregar o material.tres!");
-    }
-    else
-    {
-        UtilityFunctions::print("Material carregado com sucesso!");
         Ref<Resource> duplicated = _resource_material->duplicate();
         _resource_material = duplicated;
     }
@@ -43,7 +38,6 @@ DeepRayCast3D::DeepRayCast3D()
     _excludes_rid = TypedArray<RID>();
     _deep_results = TypedArray<DeepRayCast3DResult>();
 
-    // Objetos Ref precisam ser instanciados com memnew()
     _material = Ref<StandardMaterial3D>(memnew(StandardMaterial3D));
     _params = Ref<PhysicsRayQueryParameters3D>(memnew(PhysicsRayQueryParameters3D));
     _mesh = Ref<CylinderMesh>(memnew(CylinderMesh));
@@ -76,7 +70,6 @@ void DeepRayCast3D::_create_line()
         material->set_emission_energy_multiplier(0.0f);
     }
 
-    // Cria o mesh cilíndrico
     Ref<CylinderMesh> mesh;
     mesh.instantiate();
     mesh->set_top_radius(radius);
@@ -87,13 +80,11 @@ void DeepRayCast3D::_create_line()
     mesh->set_material(material);
     _mesh = mesh;
 
-    // Cria um Node3D container
     _node_container = memnew(Node3D);
     _node_container->set_name("RayCast3DNodeContainer");
     _node_container->set_visible(raycast_visible);
     add_child(_node_container);
 
-    // Cria o MeshInstance3D
     _mesh_instance = memnew(MeshInstance3D);
     _mesh_instance->set_mesh(mesh);
     _mesh_instance->set_cast_shadows_setting(GeometryInstance3D::SHADOW_CASTING_SETTING_OFF);
@@ -101,13 +92,11 @@ void DeepRayCast3D::_create_line()
     _mesh_instance->set_position(Vector3(0, 0, _distance / -2.0f));
     _mesh_instance->set_layer_mask(layers);
 
-    // Adiciona o mesh instance ao container
     _node_container->add_child(_mesh_instance);
 }
 
 void DeepRayCast3D::_verify_mesh()
 {
-    // Esconde o mesh se o pai ou o destino forem inválidos
     Node *parent_node = get_parent();
     if (parent_node == nullptr || !Object::cast_to<Node3D>(parent_node))
     {
@@ -136,7 +125,6 @@ void DeepRayCast3D::_verify_mesh()
 
 void DeepRayCast3D::_update_line()
 {
-    // 1️⃣ Certifica-se de que o pai é Node3D
     Node *parent_node = get_parent();
     if (parent_node == nullptr || !Object::cast_to<Node3D>(parent_node))
     {
@@ -145,14 +133,11 @@ void DeepRayCast3D::_update_line()
 
     Node3D *parent = Object::cast_to<Node3D>(parent_node);
 
-    // 2️⃣ Posição inicial (offset global)
     Vector3 start_position = parent->to_global(position_offset);
     Vector3 target_position;
 
-    // 3️⃣ Calcula destino dependendo do modo
     if (auto_forward)
     {
-        // Sempre aponta para frente no eixo -Z do pai
         target_position = start_position + (parent->get_global_transform().basis.get_column(2) * -forward_distance);
     }
     else
@@ -164,11 +149,9 @@ void DeepRayCast3D::_update_line()
         target_position = _to->get_global_position();
     }
 
-    // 4️⃣ Calcula direção e distância
     _distance = start_position.distance_to(target_position);
     _direction = (target_position - start_position).normalized();
 
-    // 5️⃣ Atualiza o mesh e container
     if (_mesh.is_valid())
     {
         _mesh->set_height(_distance);
@@ -190,7 +173,6 @@ void DeepRayCast3D::_update_line()
         _node_container->set_visible(raycast_visible);
     }
 
-    // 6️⃣ Atualiza o material
     if (_material.is_valid())
     {
         _material->set_albedo(color);
@@ -250,7 +232,6 @@ void DeepRayCast3D::_update_raycast()
     if (space_state == nullptr)
         return;
 
-    // ⚠️ Cria uma cópia limpa do exclude para esta execução
     TypedArray<RID> base_excludes;
     for (int i = 0; i < _excludes_rid.size(); i++)
         base_excludes.push_back(_excludes_rid[i]);
@@ -264,7 +245,6 @@ void DeepRayCast3D::_update_raycast()
 
         Vector3 to_point = from + to_dir * remaining_distance;
 
-        // ⚙️ Cria parâmetros novos em cada iteração
         Ref<PhysicsRayQueryParameters3D> params;
         params.instantiate();
         params->set_from(from);
@@ -301,8 +281,6 @@ void DeepRayCast3D::_update_raycast()
 
         _deep_results.append(result);
 
-        // ⚠️ Só exclui esse collider durante ESTA varredura
-        // (para poder detectar outros objetos na frente)
         if (collider_body)
         {
             RID rid_exclude;
@@ -318,7 +296,6 @@ void DeepRayCast3D::_update_raycast()
         remaining_distance = target_position.distance_to(from);
     }
 
-    // ✅ Agora emite o sinal toda vez que há pelo menos um hit
     if (_deep_results.size() > 0)
         emit_signal("cast_collider", _deep_results);
 }
@@ -356,7 +333,6 @@ void DeepRayCast3D::add_exclude(PhysicsBody3D *p_value)
         return;
     }
 
-    // Tenta pegar o RID se o objeto tiver get_rid()
     if (!p_value->has_method("get_rid"))
     {
         return;
@@ -370,7 +346,6 @@ void DeepRayCast3D::add_exclude(PhysicsBody3D *p_value)
 
     RID rid = rid_var;
 
-    // Verifica se já está na lista
     for (int i = 0; i < _excludes_rid.size(); i++)
     {
         if ((RID)_excludes_rid[i] == rid)
@@ -379,10 +354,8 @@ void DeepRayCast3D::add_exclude(PhysicsBody3D *p_value)
         }
     }
 
-    // Adiciona à lista
     _excludes_rid.append(rid);
 
-    // Atualiza parâmetros, se existirem
     if (_params.is_valid())
     {
         _params->set_exclude(_excludes_rid);
@@ -391,7 +364,6 @@ void DeepRayCast3D::add_exclude(PhysicsBody3D *p_value)
 
 void DeepRayCast3D::remove_exclude(PhysicsBody3D *p_value)
 {
-    // Verifica se o valor é válido
     if (p_value == nullptr || !p_value->has_method("get_rid"))
     {
         return;
@@ -405,7 +377,6 @@ void DeepRayCast3D::remove_exclude(PhysicsBody3D *p_value)
 
     RID rid = rid_var;
 
-    // Cria um novo array sem o RID correspondente
     TypedArray<RID> new_excludes;
     for (int i = 0; i < _excludes_rid.size(); i++)
     {
@@ -416,10 +387,8 @@ void DeepRayCast3D::remove_exclude(PhysicsBody3D *p_value)
         }
     }
 
-    // Substitui o array
     _excludes_rid = new_excludes;
 
-    // Atualiza parâmetros, se válidos
     if (_params.is_valid())
     {
         _params->set_exclude(_excludes_rid);
@@ -440,32 +409,22 @@ void DeepRayCast3D::clear_exclude()
 #pragma region Engine Methods
 void DeepRayCast3D::_ready()
 {
-    // if (Engine::get_singleton()->is_editor_hint())
-    // {
-    //     set_process(false);
-    //     set_physics_process(false);
-    // }
-
     if (!to_path.is_empty())
     {
         Node *n = get_node_or_null(to_path);
         _to = Object::cast_to<Node3D>(n);
     }
 
-    //**********
-    // Duplicar o material base
     if (_resource_material.is_valid())
     {
         _material = _resource_material->duplicate();
     }
 
-    // Adicionar RIDs dos excludes existentes
     if (_params.is_valid())
     {
         _params->set_exclude(_excludes_rid);
     }
 
-    // Se excluir o pai estiver ativo
     if (exclude_parent)
     {
         PhysicsBody3D *parent_node = Object::cast_to<PhysicsBody3D>(get_parent());
@@ -475,7 +434,6 @@ void DeepRayCast3D::_ready()
         }
     }
 
-    // Criar e atualizar o feixe
     _create_line();
     _update_line();
     _verify_mesh();
