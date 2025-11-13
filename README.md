@@ -24,14 +24,19 @@ It also includes a **fully customizable visible beam renderer**, enabling visual
 
 1. Download or clone the repository from GitHub.
 2. Copy the folder:
+
    ```
    addons/deep_raycast_3d
    ```
+
    into your Godot project directory under:
+
    ```
    res://addons/
    ```
+
    Resulting in:
+
    ```
    res://addons/deep_raycast_3d/
    ```
@@ -46,9 +51,11 @@ It also includes a **fully customizable visible beam renderer**, enabling visual
 ## Node Overview
 
 ### `DeepRayCast3D`
+
 An advanced raycasting node with multiple collision checks per beam.
 
 ### `DeepRayCast3DResult`
+
 Holds information about a single hit detected by `DeepRayCast3D`.
 
 ---
@@ -92,32 +99,43 @@ func _on_ray_hits(results):
 
 ## Key Properties
 
-| Property | Type | Default | Description |
-|-----------|------|----------|-------------|
-| `auto_forward` | `bool` | `true` | Automatically casts along parent’s -Z axis. |
-| `to_path` | `NodePath` | `""` | Target node when `auto_forward` is disabled. |
-| `forward_distance` | `float` | `10.0` | Maximum distance of the beam. |
-| `max_result` | `int` | `10` | Maximum number of hits detected. |
-| `collide_with_bodies` | `bool` | `true` | Detects `PhysicsBody3D` nodes. |
-| `collide_with_areas` | `bool` | `false` | Detects `Area3D` nodes. |
-| `collision_mask` | `int` | `1` | Physics collision mask. |
-| `raycast_visible` | `bool` | `true` | Enables visual beam rendering. |
-| `color` | `Color` | `Color(1,0,0,1)` | Beam color and emission color. |
-| `opacity` | `float` | `0.7` | Beam transparency. |
-| `radius` | `float` | `0.02` | Beam cylinder radius. |
+| Property              | Type       | Default              | Description |
+| --------------------- | ---------- | -------------------- | ------------ |
+| `activate_emission`   | `bool`     | `true`               | Enables emission lighting on the beam using the configured `color`. When disabled, the beam is rendered as unlit. |
+| `auto_forward`        | `bool`     | `true`               | Automatically casts along the parent’s -Z axis. When disabled, the beam follows the target defined in `to_path`. |
+| `collide_with_areas`  | `bool`     | `false`              | Enables detection of `Area3D` nodes. |
+| `collide_with_bodies` | `bool`     | `true`               | Enables detection of `PhysicsBody3D` nodes. |
+| `collision_mask`      | `int`      | `1`                  | Physics collision mask determining which layers the ray interacts with. |
+| `color`               | `Color`    | `Color(1, 0, 0, 1)`  | Base color of the visible beam and its emission. |
+| `emission_energy`     | `float`    | `10.0`               | Controls the intensity of the beam’s emission when `activate_emission` is true. |
+| `enabled`             | `bool`     | `true`               | Enables or disables the raycast. When false, no collision checks are performed. |
+| `exclude_parent`      | `bool`     | `true`               | Automatically excludes the parent node from collisions to prevent self-hits. |
+| `forward_distance`    | `float`    | `10.0`               | Maximum beam distance when `auto_forward` is enabled. |
+| `hit_back_faces`      | `bool`     | `true`               | Determines whether back faces of surfaces can be hit by the ray. |
+| `hit_from_inside`     | `bool`     | `true`               | Allows detection even if the ray starts inside a collider. |
+| `layers`              | `int`      | `1`                  | Rendering layer mask for the visible beam (does not affect physics). |
+| `margin`              | `float`    | `0.01`               | Small offset applied after each hit to avoid detecting the same collider repeatedly. |
+| `max_result`          | `int`      | `10`                 | Maximum number of consecutive collisions detected per cast. |
+| `opacity`             | `float`    | `0.7`                | Transparency level of the beam (0 = invisible, 1 = opaque). |
+| `position_offset`     | `Vector3`  | `Vector3(0, 0, 0)`   | Offset applied to the beam’s origin relative to its parent node. |
+| `radius`              | `float`    | `0.02`               | Radius of the beam’s cylindrical mesh. |
+| `raycast_visible`     | `bool`     | `true`               | Makes the beam visible in the viewport; disable for logic-only usage. |
+| `rings`               | `int`      | `4`                  | Number of vertical ring divisions in the beam’s cylinder. |
+| `segments`            | `int`      | `64`                 | Number of radial subdivisions (sides) in the beam’s cylinder mesh. |
+| `to_path`             | `NodePath` | `""`                 | Target node path used when `auto_forward` is disabled. The beam is cast toward this node. |
 
 ---
 
 ## Result Object (`DeepRayCast3DResult`)
 
-| Method | Description |
-|---------|-------------|
-| `get_collider()` | Returns the collider object. |
-| `get_position()` | Returns the hit position in world space. |
-| `get_normal()` | Returns the hit surface normal. |
-| `get_face_index()` | Returns the mesh face index hit. |
-| `get_rid()` | Returns the RID of the hit object. |
-| `get_shape()` | Returns the shape index of the hit. |
+| Method             | Description                              |
+| ------------------ | ---------------------------------------- |
+| `get_collider()`   | Returns the collider object.             |
+| `get_position()`   | Returns the hit position in world space. |
+| `get_normal()`     | Returns the hit surface normal.          |
+| `get_face_index()` | Returns the mesh face index hit.         |
+| `get_rid()`        | Returns the RID of the hit object.       |
+| `get_shape()`      | Returns the shape index of the hit.      |
 
 ---
 
@@ -126,5 +144,3 @@ func _on_ray_hits(results):
 **Screenshot InputManager**
 
 ![Screenshot 1](./screenshots/1.png)
-
-
