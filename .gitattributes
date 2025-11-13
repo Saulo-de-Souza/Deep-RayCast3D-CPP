@@ -1,0 +1,12 @@
+.vscode export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+README.md export-ignore
+LICENSE.md export-ignore
+emsdk export-ignore
+godot-cpp export-ignore
+prompts export-ignore
+src export-ignore
+.editorconfig export-ignore
+deep_raycast_3d.gdextension export-ignore
+SConstruct.py export-ignore

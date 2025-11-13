@@ -4,27 +4,27 @@ using namespace godot;
 #pragma region Constructor and Destructor
 DeepRayCast3D::DeepRayCast3D()
 {
-    enabled = true;
-    margin = 0.01f;
-    max_result = 10;
-    activate_emission = true;
-    emission_energy = 10.0f;
-    rings = 4;
-    segments = 64;
-    auto_forward = true;
-    forward_distance = 10.0f;
-    exclude_parent = true;
+    enabled             = true;
+    auto_forward        = true;
+    exclude_parent      = true;
+    hit_back_faces      = true;
+    hit_from_inside     = true;
+    raycast_visible     = true;
+    activate_emission   = true;
     collide_with_bodies = true;
-    collide_with_areas = false;
-    hit_back_faces = true;
-    hit_from_inside = true;
-    collision_mask = 1;
-    raycast_visible = true;
-    color = Color(1.0, 0.0, 0.0, 1.0);
-    radius = 0.02f;
-    opacity = 0.7f;
-    layers = 1;
-    position_offset = Vector3();
+    collide_with_areas  = false;
+    margin              = 0.01f;
+    radius              = 0.02f;
+    opacity             = 0.7f;
+    emission_energy     = 10.0f;
+    forward_distance    = 10.0f;
+    layers              = 1;
+    collision_mask      = 1;
+    rings               = 4;
+    max_result          = 10;
+    segments            = 64;
+    color               = Color(1.0, 0.0, 0.0, 1.0);
+    position_offset     = Vector3();
 
     _resource_material = ResourceLoader::get_singleton()->load("res://addons/deep_raycast_3d/resources/material.tres");
     if (_resource_material.is_null())
