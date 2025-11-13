@@ -158,3 +158,5 @@ func _on_ray_hits(results):
 **Screenshot InputManager**
 
 ![Screenshot 1](./screenshots/1.png)
+
+![Screenshot 2](./screenshots/cap.png)
