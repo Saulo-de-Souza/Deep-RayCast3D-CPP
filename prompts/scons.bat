@@ -18,5 +18,5 @@ set PATH=%PATH%;C:\Users\saulo\AppData\Roaming\Python\Python314\Scripts
 echo "Variável de ambiente atualizada."
 echo "Iniciando o SCons com os argumentos fornecidos..."
 
-scons
+scons platform=windows arch=x86_64 target=template_debug
 
