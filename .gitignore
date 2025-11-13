@@ -1,7 +1,7 @@
 .sconsign.dblite
 **/*.obj
 **/*.dll
-# **/*.lib
-# **/*.exp
+**/*.lib
+**/*.exp
 addons/deep_raycast_3d/deep_raycast_3d.gdextension
 gen
