@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DeepRayCast3DResult" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	Represents a single raycast collision result detected by DeepRayCast3D.
+	</brief_description>
+	<description>
+	This class stores detailed information about a single collision hit returned by a DeepRayCast3D node. It contains data such as the collider object, its ID, the surface normal, hit position, face index, RID, and shape index.
+	</description>
+	<tutorials>
+	# Example: Using DeepRayCast3DResult in GDScript
+	func _on_deep_raycast_collided(results):
+		for result in results:
+			print("Collider:", result.get_collider())
+			print("Position:", result.get_position())
+			print("Normal:", result.get_normal())
+			print("Face Index:", result.get_face_index())
+			print("RID:", result.get_rid())
+			print("Shape:", result.get_shape())
+	</tutorials>
+	<methods>
+		<method name="get_collider">
+			<return type="PhysicsBody3D" />
+			<description>
+			Returns the PhysicsBody3D that was hit by the raycast.
+			</description>
+		</method>
+		<method name="get_collider_id">
+			<return type="int" />
+			<description>
+			Returns the unique instance ID of the collider that was hit.
+			</description>
+		</method>
+		<method name="get_face_index">
+			<return type="int" />
+			<description>
+			Returns the index of the face that was hit on the collider mesh, if applicable.
+			</description>
+		</method>
+		<method name="get_normal">
+			<return type="Vector3" />
+			<description>
+			Returns the surface normal vector at the collision point.
+			</description>
+		</method>
+		<method name="get_position">
+			<return type="Vector3" />
+			<description>
+			Returns the world position of the collision point.
+			</description>
+		</method>
+		<method name="get_rid">
+			<return type="RID" />
+			<description>
+			Returns the RID (Resource ID) of the physics object that was hit.
+			</description>
+		</method>
+		<method name="get_shape">
+			<return type="int" />
+			<description>
+			Returns the index of the collider shape that was hit.
+			</description>
+		</method>
+		<method name="set_collider">
+			<return type="void" />
+			<param index="0" name="p_value" type="PhysicsBody3D" />
+			<description>
+			Sets the collider object for this result.
+			</description>
+		</method>
+		<method name="set_collider_id">
+			<return type="void" />
+			<param index="0" name="p_value" type="int" />
+			<description>
+			Sets the collider's unique instance ID for this result.
+			</description>
+		</method>
+		<method name="set_face_index">
+			<return type="void" />
+			<param index="0" name="p_value" type="int" />
+			<description>
+			Sets the mesh face index that was hit.
+			</description>
+		</method>
+		<method name="set_normal">
+			<return type="void" />
+			<param index="0" name="p_value" type="Vector3" />
+			<description>
+			Sets the collision surface normal for this result.
+			</description>
+		</method>
+		<method name="set_position">
+			<return type="void" />
+			<param index="0" name="p_value" type="Vector3" />
+			<description>
+			Sets the collision point in world coordinates.
+			</description>
+		</method>
+		<method name="set_rid">
+			<return type="void" />
+			<param index="0" name="p_value" type="RID" />
+			<description>
+			Sets the RID (Resource ID) for this result.
+			</description>
+		</method>
+		<method name="set_shape">
+			<return type="void" />
+			<param index="0" name="p_value" type="int" />
+			<description>
+			Sets the collider shape index that was hit.
+			</description>
+		</method>
+	</methods>
+</class>

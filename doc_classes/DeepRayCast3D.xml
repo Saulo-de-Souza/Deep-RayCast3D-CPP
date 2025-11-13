@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DeepRayCast3D" inherits="Node" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		[b]Advanced[/b] 3D raycast node capable of performing multiple consecutive collision detections along a single beam.
+	</brief_description>
+	<description>
+		[b]DeepRayCast3D[/b] is an extended version of the built-in [b]RayCast3D[/b] node that allows multiple consecutive
+		collision checks along the same ray.  
+		It can detect [b]multiple[/b] objects aligned along a beam by automatically excluding each hit collider before continuing
+		the scan beyond it.  
+		In addition to its physical functionality, the node can display a [b]visual 3D beam[/b] with customizable color, opacity,
+		emission, and geometry, useful for debugging or visual effects.
+		When [b]auto_forward[/b] is enabled, the beam is projected automatically along the parent’s forward direction (-Z axis).  
+		When disabled, you can target another [b]Node3D[/b] via the [b]to_path[/b] property.
+	</description>
+	<tutorials>
+			# Example 1: Basic usage
+			@onready var deep_ray = $DeepRayCast3D
+
+			func _process(_delta):
+				# Loop through all detected colliders each frame
+				for i in range(deep_ray.get_collider_count()):
+					var collider = deep_ray.get_collider(i)
+					var position = deep_ray.get_position(i)
+					var normal = deep_ray.get_normal(i)
+					print("Hit:", collider, "at", position, "normal:", normal)
+
+			# Example 2: Create and configure via code
+
+			func _ready():
+				var deep_ray = DeepRayCast3D.new()
+				deep_ray.enabled = true
+				deep_ray.forward_distance = 10.0
+				deep_ray.max_result = 5
+				deep_ray.collide_with_bodies = true
+				deep_ray.collide_with_areas = false
+				add_child(deep_ray)
+
+				# Connect signal to get hit results
+				deep_ray.cast_collider.connect(_on_ray_hits)
+
+			func _on_ray_hits(results):
+				for hit in results:
+					print("Detected:", hit.get_collider())
+
+			# Example 3: Manual 'to' mode (Auto Forward disabled)
+			@onready var deep_ray = $DeepRayCast3D
+			@onready var target = $Target
+
+			func _ready():
+				deep_ray.auto_forward = false
+				deep_ray.to_path = target.get_path()
+				deep_ray.enabled = true
+	</tutorials>
+	<methods>
+		<method name="add_exclude">
+			<return type="void" />
+			<param index="0" name="p_value" type="PhysicsBody3D" />
+			<description>
+			Adds a physics body to the exclusion list. Bodies in this list are ignored during raycast checks. Useful for preventing the ray from hitting its own emitter.
+			</description>
+		</method>
+		<method name="clear_exclude">
+			<return type="void" />
+			<description>
+			Clears the exclusion list, allowing all bodies to be detected again.
+			</description>
+		</method>
+		<method name="get_collider">
+			<return type="PhysicsBody3D" />
+			<param index="0" name="p_value" type="int" />
+			<description>
+			Returns the physics body corresponding to the given hit index from the last deep raycast result. The index must be between `0` and `get_collider_count() - 1`.
+			</description>
+		</method>
+		<method name="get_collider_count">
+			<return type="int" />
+			<description>
+			Returns the number of colliders detected in the last deep raycast execution.
+			</description>
+		</method>
+		<method name="get_normal">
+			<return type="Vector3" />
+			<param index="0" name="p_value" type="int" />
+			<description>
+			Returns the surface normal vector of the collision at the given hit index. This vector represents the perpendicular direction to the impacted surface.
+			</description>
+		</method>
+		<method name="get_position">
+			<return type="Vector3" />
+			<param index="0" name="p_value" type="int" />
+			<description>
+			Returns the global position of the collision point for the specified hit index.
+			</description>
+		</method>
+		<method name="remove_exclude">
+			<return type="void" />
+			<param index="0" name="p_value" type="PhysicsBody3D" />
+			<description>
+			Removes a specific body from the exclusion list, allowing it to be detected again.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="activate_emission" type="bool" setter="set_activate_emission" getter="get_activate_emission" default="true">
+		If enabled, the beam’s material emits light using the configured `color`. When disabled, the beam is rendered as a regular unlit material.
+		</member>
+		<member name="auto_forward" type="bool" setter="set_auto_forward" getter="get_auto_forward" default="true">
+		If true, the beam is automatically cast forward along the parent’s -Z axis. If false, the beam direction is determined by the `to_path` target node.
+		</member>
+		<member name="collide_with_areas" type="bool" setter="set_collide_with_areas" getter="get_collide_with_areas" default="false">
+		Determines whether the ray should detect `Area3D` nodes. Disable this to detect only physics bodies.
+		</member>
+		<member name="collide_with_bodies" type="bool" setter="set_collide_with_bodies" getter="get_collide_with_bodies" default="true">
+		Determines whether the ray should detect `PhysicsBody3D` nodes. Disable this to detect only areas.
+		</member>
+		<member name="collision_mask" type="int" setter="set_collision_mask" getter="get_collision_mask" default="1">
+		The collision mask used to determine which physics layers the ray interacts with. Similar to the `collision_mask` property in `RayCast3D`.
+		</member>
+		<member name="color" type="Color" setter="set_color" getter="get_color" default="Color(1, 0, 0, 1)">
+		Base color of the visible beam. Also affects emission color if `activate_emission` is enabled.
+		</member>
+		<member name="emission_energy" type="float" setter="set_emission_energy" getter="get_emission_energy" default="10.0">
+		Controls the brightness of the beam’s emission. Only effective when `activate_emission` is true.
+		</member>
+		<member name="enabled" type="bool" setter="set_enabled" getter="get_enabled" default="true">
+		Enables or disables the raycast. When false, no collision checks are performed.
+		</member>
+		<member name="exclude_parent" type="bool" setter="set_exclude_parent" getter="get_exclude_parent" default="true">
+		If true, the node’s parent is automatically added to the exclusion list. This prevents self-collision when the ray is attached to a physical body.
+		</member>
+		<member name="forward_distance" type="float" setter="set_forward_distance" getter="get_forward_distance" default="10.0">
+		The maximum distance the beam travels when `auto_forward` is enabled.
+		</member>
+		<member name="hit_back_faces" type="bool" setter="set_hit_back_faces" getter="get_hit_back_faces" default="true">
+		Whether back faces of surfaces should be considered for collision detection.
+		</member>
+		<member name="hit_from_inside" type="bool" setter="set_hit_from_inside" getter="get_hit_from_inside" default="true">
+		Allows hits to be registered even when the ray starts inside a collider.
+		</member>
+		<member name="layers" type="int" setter="set_layers" getter="get_layers" default="1">
+		Rendering layers of the visible beam. Does not affect physics interactions.
+		</member>
+		<member name="margin" type="float" setter="set_margin" getter="get_margin" default="0.01">
+		Small offset applied after each collision to prevent detecting the same collider repeatedly.
+		</member>
+		<member name="max_result" type="int" setter="set_max_result" getter="get_max_result" default="10">
+		The maximum number of consecutive collisions the deep raycast will attempt to detect.
+		</member>
+		<member name="opacity" type="float" setter="set_opacity" getter="get_opacity" default="0.7">
+		Controls the transparency of the visible beam. Values closer to 0 make it nearly invisible.
+		</member>
+		<member name="position_offset" type="Vector3" setter="set_position_offset" getter="get_position_offset" default="Vector3(0, 0, 0)">
+		Offset applied to the beam’s origin relative to its parent node.
+		</member>
+		<member name="radius" type="float" setter="set_radius" getter="get_radius" default="0.02">
+		Radius of the beam’s visual cylinder representation.
+		</member>
+		<member name="raycast_visible" type="bool" setter="set_raycast_visible" getter="get_raycast_visible" default="true">
+		Determines whether the beam should be visible in the viewport. Disable this to use it purely as a logic-only raycast.
+		</member>
+		<member name="rings" type="int" setter="set_rings" getter="get_rings" default="4">
+		Number of vertical ring divisions of the beam’s cylinder mesh.
+		</member>
+		<member name="segments" type="int" setter="set_segments" getter="get_segments" default="64">
+		Number of radial segments (sides) used to render the beam’s cylinder mesh.
+		</member>
+		<member name="to_path" type="NodePath" setter="set_to_path" getter="get_to_path" default="NodePath(&quot;&quot;)">
+		Specifies the target node when `auto_forward` is disabled. The beam is cast from the origin toward the given node’s position.
+		</member>
+	</members>
+	<signals>
+		<signal name="cast_collider">
+			<param index="0" name="results" type="DeepRayCast3DResult[]" />
+			<description>
+			Emitted whenever the deep raycast detects one or more collisions. The `results` parameter contains an array of `DeepRayCast3DResult` objects — one for each detected hit.
+			</description>
+		</signal>
+	</signals>
+</class>
