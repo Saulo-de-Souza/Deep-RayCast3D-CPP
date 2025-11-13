@@ -79,6 +79,11 @@ call emsdk\emsdk_env.bat
 call scons platform=web target=template_debug
 call scons platform=web target=template_release
 
+echo =====================================================================
+echo Copiando pata addons para o projeto example...
+echo =====================================================================
+xcopy ".\addons" ".\example\addons" /E /I /Y /Q
+
 echo ========================================
 echo ✅ Compilação finalizada com sucesso!
 echo ========================================
