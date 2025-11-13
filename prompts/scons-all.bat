@@ -79,7 +79,7 @@ call scons platform=web target=template_release
 echo ========================================
 echo ✅ Compilação finalizada com sucesso!
 echo ========================================
-pause
+
 
 
 @REM scons target=template_release platform=windows symbols_visibility=hidden optimize=speed generate_bindings=yes precision=double arch=x86_64
