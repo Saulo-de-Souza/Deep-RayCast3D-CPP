@@ -32,44 +32,6 @@ echo 🚀 Iniciando builds com SCons...
 echo ========================================
 
 REM ------------------------------
-REM 🪟 WINDOWS
-REM ------------------------------
-call scons platform=windows arch=x86_32 target=template_debug
-call scons platform=windows arch=x86_32 target=template_release
-call scons platform=windows arch=x86_64 target=template_debug
-call scons platform=windows arch=x86_64 target=template_release
-
-REM ------------------------------
-REM 🐧 LINUX
-REM ------------------------------
-call scons platform=linux arch=x86_64 target=template_debug
-call scons platform=linux arch=x86_64 target=template_release
-call scons platform=linux arch=arm64 target=template_debug
-call scons platform=linux arch=arm64 target=template_release
-
-REM ------------------------------
-REM 🍎 MACOS
-REM ------------------------------
-call scons platform=macos arch=x86_64 target=template_debug
-call scons platform=macos arch=x86_64 target=template_release
-REM (opcional) Universal build:
-REM call scons platform=macos arch=universal target=template_release
-
-REM ------------------------------
-REM 🤖 ANDROID
-REM ------------------------------
-call scons platform=android arch=arm64v8 target=template_debug
-call scons platform=android arch=arm64v8 target=template_release
-call scons platform=android arch=arm32v7 target=template_debug
-call scons platform=android arch=arm32v7 target=template_release
-
-REM ------------------------------
-REM 🍏 iOS
-REM ------------------------------
-call scons platform=ios arch=universal target=template_debug
-call scons platform=ios arch=universal target=template_release
-
-REM ------------------------------
 REM 🌐 WEB
 REM ------------------------------
 call emsdk\emsdk_env.bat

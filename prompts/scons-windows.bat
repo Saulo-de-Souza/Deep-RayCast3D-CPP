@@ -33,7 +33,7 @@ scons platform=windows arch=x86_64 target=template_release
 scons platform=windows arch=x86_32 target=template_release
 
 echo =====================================================================
-echo Copiando pata addons para o projeto example...
+echo Copiando pasta addons para o projeto example...
 echo =====================================================================
 xcopy ".\addons" ".\example\addons" /E /I /Y /Q
 
