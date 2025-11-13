@@ -35,8 +35,8 @@ REM ------------------------------
 REM 🌐 WEB
 REM ------------------------------
 call emsdk\emsdk_env.bat
-call scons platform=web target=template_debug
-call scons platform=web target=template_release
+call scons platform=web target=template_debug dlink_enabled=yes threads=no
+call scons platform=web target=template_release dlink_enabled=yes threads=no
 
 echo =====================================================================
 echo Copiando pasta addons para o projeto example...
