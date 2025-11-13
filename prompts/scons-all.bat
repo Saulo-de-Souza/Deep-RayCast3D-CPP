@@ -14,6 +14,9 @@ if exist "%DELETEGEN%" (
     rmdir /S /Q "%DELETEGEN%"
 )
 
+echo Copiando arquivos...
+xcopy ".\deep_raycast_3d.gdextension" ".\addons\deep_raycast_3d\" /I /Y /Q
+
 REM ==============================
 REM Copiar arquivo .gdextension
 REM ==============================
