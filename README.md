@@ -7,6 +7,8 @@ Unlike the default node, this extension allows **multiple consecutive collision 
 
 It also includes a **fully customizable visible beam renderer**, enabling visual debugging and in-game effects.
 
+If you prefer using gdscript, the same plugin can be found here: https://github.com/Saulo-de-Souza/DeepRayCast3D
+
 ---
 
 ## Features
@@ -22,27 +24,59 @@ It also includes a **fully customizable visible beam renderer**, enabling visual
 
 ## Installation
 
-1. Download or clone the repository from GitHub.
-2. Copy the folder:
+> If you use Windows as your operating system, you can copy the addons folder to your game project.
+If you use another operating system and want to export to other systems, download the project and compile it according to the operating system.
 
-   ```
-   addons/deep_raycast_3d
-   ```
+**Windows**:
+```sh
+set PATH=%PATH%;C:\directory\your\scons\
+scons platform=windows arch=x86_64 target=template_debug
+scons platform=windows arch=x86_32 target=template_debug
+scons platform=windows arch=x86_64 target=template_release
+scons platform=windows arch=x86_32 target=template_release
+```
 
-   into your Godot project directory under:
+**Web**:
+```sh
+set PATH=%PATH%;C:\directory\your\scons\
+emsdk\emsdk_env.bat
+scons platform=web target=template_debug dlink_enabled=yes threads=no
+scons platform=web target=template_release dlink_enabled=yes threads=no
+```
 
-   ```
-   res://addons/
-   ```
+**Linux**:
+```sh
+set PATH=%PATH%;C:\directory\your\scons\
+scons platform=linux arch=x86_64 target=template_debug
+scons platform=linux arch=x86_64 target=template_release
+scons platform=linux arch=arm64 target=template_debug
+scons platform=linux arch=arm64 target=template_release
+```
 
-   Resulting in:
+**MacOS**:
+```sh
+set PATH=%PATH%;C:\directory\your\scons\
+scons platform=macos arch=x86_64 target=template_debug
+scons platform=macos arch=x86_64 target=template_release
+```
 
-   ```
-   res://addons/deep_raycast_3d/
-   ```
+**Android**:
+```sh
+set PATH=%PATH%;C:\directory\your\scons\
+scons platform=android arch=arm64v8 target=template_debug
+scons platform=android arch=arm64v8 target=template_release
+scons platform=android arch=arm32v7 target=template_debug
+scons platform=android arch=arm32v7 target=template_release
+```
 
-3. Open your project in Godot, and ensure the plugin is recognized.
-4. The plugin file `deep_raycast_3d.gdextension` will automatically register the custom nodes.
+**IOS**:
+```sh
+set PATH=%PATH%;C:\directory\your\scons\
+scons platform=ios arch=universal target=template_debug
+scons platform=ios arch=universal target=template_release
+```
+
+>Once compiled, simply copy the addons folder to your project in Godot Engine and restart the project to reload.
 
 > **Note:** When exporting your game, ensure that the option **“Extension Support”** is enabled in the export settings.
 
