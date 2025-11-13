@@ -1,3 +1,18 @@
 [gd_scene format=3 uid="uid://b4j4blxulv45f"]
 
 [node name="Main" type="Node3D" unique_id=1776515442]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=653361328]
+transform = Transform3D(1, 0, 0, 0, 0.97657853, 0.21516149, 0, -0.21516149, 0.97657853, 0, 1.1368, 0.32471877)
+
+[node name="From" type="Marker3D" parent="." unique_id=924500023]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -4.475187, 1.1979396, -2.5753458)
+
+[node name="DeepRayCast3D" type="DeepRayCast3D" parent="From" unique_id=1508635356]
+emission_energy = 11.66
+to_path = NodePath("../../Target")
+radius = 0.01
+opacity = 1.0
+
+[node name="Target" type="Marker3D" parent="." unique_id=205016662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6051188, 0.7454963, -3.4591596)
