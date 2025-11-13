@@ -6,3 +6,4 @@ src/**/*.lib
 src/**/*.exp
 src/**/*.o
 src/**/*.wasm
+example/build
