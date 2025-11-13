@@ -69,8 +69,6 @@ if not os.path.exists(output_dir):
 # Configura o nome do arquivo de biblioteca compartilhada
 library_path = os.path.join(output_dir, library_name_full + shared_lib_suffix)
 
-# env.Append(CPPDEFINES=["GDE_EXPORT=__declspec(dllexport)" if platform == "windows" else "GDE_EXPORT="])
-
 # Gera a biblioteca compartilhada
 library = env.SharedLibrary(
     target=library_path,
