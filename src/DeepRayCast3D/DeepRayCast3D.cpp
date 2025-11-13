@@ -26,7 +26,7 @@ DeepRayCast3D::DeepRayCast3D()
     layers = 1;
     position_offset = Vector3();
 
-    _resource_material = ResourceLoader::get_singleton()->load("res://assets/resources/material.tres");
+    _resource_material = ResourceLoader::get_singleton()->load("res://addons/deep_raycast_3d/resources/material.tres");
     if (_resource_material.is_null())
     {
         UtilityFunctions::printerr("Falha ao carregar o material.tres!");
