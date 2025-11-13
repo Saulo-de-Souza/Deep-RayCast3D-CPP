@@ -3,7 +3,9 @@
 .gitattributes export-ignore
 README.md export-ignore
 LICENSE.md export-ignore
+doc_classes export-ignore
 emsdk export-ignore
+example export-ignore
 godot-cpp export-ignore
 prompts export-ignore
 src export-ignore
