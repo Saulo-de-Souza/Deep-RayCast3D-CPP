@@ -13,3 +13,4 @@ godot-cpp export-ignore
 prompts export-ignore
 src export-ignore
 screenshots export-ignore
+.github export-ignore
