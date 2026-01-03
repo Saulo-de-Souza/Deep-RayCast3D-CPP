@@ -194,3 +194,10 @@ func _on_ray_hits(results):
 ![Screenshot 1](./screenshots/1.png)
 
 ![Screenshot 2](./screenshots/cap.png)
+
+---
+
+## ❤️ Support
+
+If this project helps you, consider supporting:
+https://github.com/sponsors/Saulo-de-Souza
